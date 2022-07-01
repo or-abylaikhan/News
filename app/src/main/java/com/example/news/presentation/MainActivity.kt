@@ -1,12 +1,12 @@
 package com.example.news.presentation
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.example.news.R
+import com.example.news.databinding.ActivityMainBinding
+import com.example.news.util.binding.BindingActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
     }
 }
