@@ -2,18 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/news"
+        android:id="@+id/newsFragment"
         android:contentDescription="@string/app_name"
         android:icon="@drawable/ic_news"
         android:title="@string/app_name" />
 
     <item
-        android:id="@+id/search"
-        android:enabled="false"
+        android:id="@+id/searchNewsFragment"
+        android:contentDescription="@string/search"
+        android:icon="@drawable/ic_search"
         android:title="@string/search" />
 
     <item
-        android:id="@+id/bookmark"
+        android:id="@+id/savedNewsFragment"
         android:contentDescription="@string/bookmarks"
         android:icon="@drawable/ic_bookmark"
         android:title="@string/bookmarks" />
