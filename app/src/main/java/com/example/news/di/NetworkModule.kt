@@ -19,16 +19,7 @@ import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Qualifier
 import javax.inject.Singleton
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class AuthInterceptor
-
-@Qualifier
-@Retention(AnnotationRetention.RUNTIME)
-annotation class LoggingInterceptor
 
 @Module
 @InstallIn(SingletonComponent::class)
