@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class NewsActivity : BindingActivity<ActivityNewsBinding>(ActivityNewsBinding::inflate) {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViews()
@@ -17,9 +18,10 @@ class NewsActivity : BindingActivity<ActivityNewsBinding>(ActivityNewsBinding::i
 
     private fun initViews() {
         binding.apply {
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.let {
-                bottomNav.setupWithNavController(it.findNavController())
-            }
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+                ?.let { navHostFragment ->
+                    bottomNav.setupWithNavController(navHostFragment.findNavController())
+                }
         }
     }
 }
