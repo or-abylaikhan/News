@@ -14,5 +14,5 @@ interface ArticleDao {
     suspend fun upsert(article: ArticleEntity): Long
 
     @Delete
-    suspend fun delete(article: ArticleEntity): Long
+    suspend fun delete(article: ArticleEntity)
 }

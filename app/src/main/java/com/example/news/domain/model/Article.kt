@@ -1,9 +1,7 @@
 package com.example.news.domain.model
 
-import com.example.news.data.network.model.SourceResponse
-
 data class Article(
-    val sourceResponse: SourceResponse,
+    val source: Source,
     val author: String?,
     val title: String,
     val description: String,
