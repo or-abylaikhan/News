@@ -2,6 +2,7 @@ package com.example.news.presentation
 
 import com.example.news.databinding.FragmentSavedNewsBinding
 import com.example.news.util.binding.BindingFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class SavedNewsFragment :
-    BindingFragment<FragmentSavedNewsBinding>(FragmentSavedNewsBinding::inflate) {}
+@AndroidEntryPoint
+class SavedNewsFragment : BindingFragment<FragmentSavedNewsBinding>(FragmentSavedNewsBinding::inflate)
