@@ -10,12 +10,16 @@ import com.example.news.databinding.NewsItemBinding
 import com.example.news.domain.model.Article
 import com.example.news.util.publishedAtSimple
 
-class NewsAdapter : ListAdapter<Article, NewsAdapter.NewsViewHolder>(
-    object : DiffUtil.ItemCallback<Article>() {
-        override fun areItemsTheSame(old: Article, new: Article) = old.url == new.url
-        override fun areContentsTheSame(oldItem: Article, newItem: Article) = oldItem == newItem
-    }
-) {
+class NewsAdapter(
+    private val OnItemClickListener: (Article) -> Unit,
+    private val OnBookmarkListener: (Article, isChecked: Boolean) -> Unit
+) :
+    ListAdapter<Article, NewsAdapter.NewsViewHolder>(
+        object : DiffUtil.ItemCallback<Article>() {
+            override fun areItemsTheSame(old: Article, new: Article) = old.url == new.url
+            override fun areContentsTheSame(oldItem: Article, newItem: Article) = oldItem == newItem
+        }
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder =
         NewsViewHolder(NewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -33,6 +37,10 @@ class NewsAdapter : ListAdapter<Article, NewsAdapter.NewsViewHolder>(
                 tvArticleDescription.text = article.description
                 tvArticleAuthor.text = article.author
                 tvArticlePublishedAt.text = article.publishedAtSimple()
+                cbBookmark.setOnCheckedChangeListener { _, isChecked ->
+                    OnBookmarkListener.invoke(article, isChecked)
+                }
+                root.setOnClickListener { OnItemClickListener.invoke(article) }
             }
         }
     }
