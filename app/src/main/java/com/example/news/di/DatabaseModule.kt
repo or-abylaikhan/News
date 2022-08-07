@@ -17,6 +17,7 @@ import javax.inject.Singleton
 object DatabaseModule {
 
     @Provides
+    @Singleton
     fun provideArticleDao(articleDatabase: ArticleDatabase): ArticleDao = articleDatabase.articleDao
 
     @Provides

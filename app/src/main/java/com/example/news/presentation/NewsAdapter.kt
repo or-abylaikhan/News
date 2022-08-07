@@ -10,10 +10,7 @@ import com.example.news.databinding.NewsItemBinding
 import com.example.news.domain.model.Article
 import com.example.news.util.publishedAtSimple
 
-class NewsAdapter(
-    private val OnItemClickListener: (Article) -> Unit,
-    private val OnBookmarkListener: (Article, isChecked: Boolean) -> Unit
-) :
+class NewsAdapter(private val OnItemClickListener: (Article) -> Unit) :
     ListAdapter<Article, NewsAdapter.NewsViewHolder>(
         object : DiffUtil.ItemCallback<Article>() {
             override fun areItemsTheSame(old: Article, new: Article) = old.url == new.url
@@ -37,9 +34,6 @@ class NewsAdapter(
                 tvArticleDescription.text = article.description
                 tvArticleAuthor.text = article.author
                 tvArticlePublishedAt.text = article.publishedAtSimple()
-                cbBookmark.setOnCheckedChangeListener { _, isChecked ->
-                    OnBookmarkListener.invoke(article, isChecked)
-                }
                 root.setOnClickListener { OnItemClickListener.invoke(article) }
             }
         }
