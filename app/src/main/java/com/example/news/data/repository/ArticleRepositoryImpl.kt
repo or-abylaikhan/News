@@ -8,6 +8,12 @@ import com.example.news.data.mapper.ArticleResponseMapper
 import com.example.news.data.network.NewsApi
 import com.example.news.domain.model.Article
 import com.example.news.domain.repository.ArticleRepository
+import com.example.news.util.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class ArticleRepositoryImpl @Inject constructor(
@@ -17,12 +23,52 @@ class ArticleRepositoryImpl @Inject constructor(
     private val articleEntityMapper: ArticleEntityMapper
 ) : ArticleRepository {
 
-    override suspend fun getBreakingNews(countryCode: String, pageNumber: Int): List<Article> {
-        TODO("Not yet implemented")
+    override suspend fun getBreakingNews(
+        countryCode: String,
+        pageNumber: Int
+    ): Resource<List<Article>> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.getBreakingNews(countryCode, pageNumber)
+            if (response.isSuccessful)
+                Resource.Success(
+                    data = articleResponseMapper.to(response.body()?.articleData ?: emptyList())
+                )
+            else {
+                val errorJsonObject = JSONObject(response.errorBody().toString())
+                val errorMessage = errorJsonObject.getString("message")
+                Resource.Error(errorMessage = errorMessage ?: "Something went wrong")
+            }
+        } catch (e: HttpException) {
+            Resource.Error(errorMessage = e.message ?: "Something went wrong")
+        } catch (e: IOException) {
+            Resource.Error("Please check your network connection")
+        } catch (e: Exception) {
+            Resource.Error(errorMessage = "Something went wrong")
+        }
     }
 
-    override suspend fun searchForNews(searchQuery: String, pageNumber: Int): List<Article> {
-        TODO("Not yet implemented")
+    override suspend fun searchForNews(
+        searchQuery: String,
+        pageNumber: Int
+    ): Resource<List<Article>> = withContext(Dispatchers.IO) {
+        try {
+            val response = api.searchForNews(searchQuery = searchQuery, pageNumber = pageNumber)
+            if (response.isSuccessful)
+                Resource.Success(
+                    data = articleResponseMapper.to(response.body()?.articleData ?: emptyList())
+                )
+            else {
+                val errorJsonObject = JSONObject(response.errorBody().toString())
+                val errorMessage = errorJsonObject.getString("message")
+                Resource.Error(errorMessage = errorMessage ?: "Something went wrong")
+            }
+        } catch (e: HttpException) {
+            Resource.Error(errorMessage = e.message ?: "Something went wrong")
+        } catch (e: IOException) {
+            Resource.Error("Please check your network connection")
+        } catch (e: Exception) {
+            Resource.Error(errorMessage = "Something went wrong")
+        }
     }
 
     override fun getSavedArticles(): LiveData<List<Article>> =
