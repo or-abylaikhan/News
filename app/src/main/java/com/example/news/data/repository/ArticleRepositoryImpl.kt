@@ -29,11 +29,11 @@ class ArticleRepositoryImpl @Inject constructor(
     ): Resource<List<Article>> = withContext(Dispatchers.IO) {
         try {
             val response = api.getBreakingNews(countryCode, pageNumber)
-            if (response.isSuccessful)
-                Resource.Success(
-                    data = articleResponseMapper.to(response.body()?.articleData ?: emptyList())
-                )
-            else {
+            if (response.isSuccessful) {
+                val articleData =
+                    articleResponseMapper.to(response.body()?.articleData ?: emptyList())
+                Resource.Success(data = articleData)
+            } else {
                 val errorJsonObject = JSONObject(response.errorBody().toString())
                 val errorMessage = errorJsonObject.getString("message")
                 Resource.Error(errorMessage = errorMessage ?: "Something went wrong")
@@ -42,8 +42,6 @@ class ArticleRepositoryImpl @Inject constructor(
             Resource.Error(errorMessage = e.message ?: "Something went wrong")
         } catch (e: IOException) {
             Resource.Error("Please check your network connection")
-        } catch (e: Exception) {
-            Resource.Error(errorMessage = "Something went wrong")
         }
     }
 
@@ -53,11 +51,11 @@ class ArticleRepositoryImpl @Inject constructor(
     ): Resource<List<Article>> = withContext(Dispatchers.IO) {
         try {
             val response = api.searchForNews(searchQuery = searchQuery, pageNumber = pageNumber)
-            if (response.isSuccessful)
-                Resource.Success(
-                    data = articleResponseMapper.to(response.body()?.articleData ?: emptyList())
-                )
-            else {
+            if (response.isSuccessful) {
+                val articleData =
+                    articleResponseMapper.to(response.body()?.articleData ?: emptyList())
+                Resource.Success(data = articleData)
+            } else {
                 val errorJsonObject = JSONObject(response.errorBody().toString())
                 val errorMessage = errorJsonObject.getString("message")
                 Resource.Error(errorMessage = errorMessage ?: "Something went wrong")
@@ -66,8 +64,6 @@ class ArticleRepositoryImpl @Inject constructor(
             Resource.Error(errorMessage = e.message ?: "Something went wrong")
         } catch (e: IOException) {
             Resource.Error("Please check your network connection")
-        } catch (e: Exception) {
-            Resource.Error(errorMessage = "Something went wrong")
         }
     }
 
