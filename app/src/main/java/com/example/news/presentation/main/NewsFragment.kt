@@ -28,17 +28,16 @@ class NewsFragment : BindingFragment<FragmentNewsBinding>(FragmentNewsBinding::i
     }
 
     private fun setupObservers() {
-        viewModel.breakingNews.observe(viewLifecycleOwner) { resource ->
-            with(binding) {
+        with(binding) {
+            viewModel.breakingNews.observe(viewLifecycleOwner) { resource ->
                 when (resource) {
-                    is Resource.Loading -> binding.pb.makeVisible()
+                    is Resource.Loading -> pb.makeVisible()
                     is Resource.Success -> {
-                        pb.makeGone()
                         (rvNews.adapter as NewsAdapter).submitList(resource.data)
+                        pb.makeGone()
                     }
-                    is Resource.Error -> {
+                    is Resource.Error ->
                         Toast.makeText(context, resource.message, Toast.LENGTH_LONG).show()
-                    }
                 }
             }
         }
