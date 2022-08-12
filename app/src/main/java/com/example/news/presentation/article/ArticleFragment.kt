@@ -1,4 +1,4 @@
-package com.example.news.presentation
+package com.example.news.presentation.article
 
 import com.example.news.databinding.FragmentArticleBinding
 import com.example.news.util.binding.BindingFragment

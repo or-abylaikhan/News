@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.example.news.presentation.NewsFragment"
+        android:name="com.example.news.presentation.main.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news">
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/searchNewsFragment"
-        android:name="com.example.news.presentation.SearchNewsFragment"
+        android:name="com.example.news.presentation.search.SearchNewsFragment"
         android:label="fragment_search_news"
         tools:layout="@layout/fragment_search_news">
 
@@ -39,7 +39,7 @@
 
     <fragment
         android:id="@+id/savedNewsFragment"
-        android:name="com.example.news.presentation.SavedNewsFragment"
+        android:name="com.example.news.presentation.saved.SavedNewsFragment"
         android:label="fragment_saved_news"
         tools:layout="@layout/fragment_saved_news">
 
@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/articleFragment"
-        android:name="com.example.news.presentation.ArticleFragment"
+        android:name="com.example.news.presentation.article.ArticleFragment"
         android:label="fragment_article"
         tools:layout="@layout/fragment_article" />
 

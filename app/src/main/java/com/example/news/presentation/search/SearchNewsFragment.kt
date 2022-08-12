@@ -1,4 +1,4 @@
-package com.example.news.presentation
+package com.example.news.presentation.search
 
 import com.example.news.databinding.FragmentSearchNewsBinding
 import com.example.news.util.binding.BindingFragment

@@ -1,4 +1,4 @@
-package com.example.news.presentation
+package com.example.news.presentation.main
 
 import android.os.Bundle
 import androidx.navigation.fragment.findNavController
@@ -18,10 +18,9 @@ class NewsActivity : BindingActivity<ActivityNewsBinding>(ActivityNewsBinding::i
 
     private fun initViews() {
         binding.apply {
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-                ?.let { navHostFragment ->
-                    bottomNav.setupWithNavController(navHostFragment.findNavController())
-                }
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            val navController = navHostFragment?.findNavController()
+            navController?.let { bottomNav.setupWithNavController(it) }
         }
     }
 }
