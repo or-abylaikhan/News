@@ -1,6 +1,5 @@
 package com.example.news.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +27,6 @@ class NewsFragmentViewModel @Inject constructor(private val getBreakingNewsUseCa
         viewModelScope.launch {
             _breakingNews.postValue(Resource.Loading())
             val resource = getBreakingNewsUseCase.getBreakingNews(countryCode, breakingNewsPage)
-            Log.d("ViewModel", resource.message.toString())
             _breakingNews.postValue(resource)
         }
 }

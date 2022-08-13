@@ -11,7 +11,6 @@ import com.example.news.domain.repository.ArticleRepository
 import com.example.news.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -34,9 +33,7 @@ class ArticleRepositoryImpl @Inject constructor(
                     articleResponseMapper.to(response.body()?.articleData ?: emptyList())
                 Resource.Success(data = articleData)
             } else {
-                val errorJsonObject = JSONObject(response.errorBody().toString())
-                val errorMessage = errorJsonObject.getString("message")
-                Resource.Error(errorMessage = errorMessage ?: "Something went wrong")
+                Resource.Error(errorMessage = response.errorBody().toString())
             }
         } catch (e: HttpException) {
             Resource.Error(errorMessage = e.message ?: "Something went wrong")
@@ -50,15 +47,13 @@ class ArticleRepositoryImpl @Inject constructor(
         pageNumber: Int
     ): Resource<List<Article>> = withContext(Dispatchers.IO) {
         try {
-            val response = api.searchForNews(searchQuery = searchQuery, pageNumber = pageNumber)
+            val response = api.searchForNews(searchQuery, pageNumber)
             if (response.isSuccessful) {
                 val articleData =
                     articleResponseMapper.to(response.body()?.articleData ?: emptyList())
                 Resource.Success(data = articleData)
             } else {
-                val errorJsonObject = JSONObject(response.errorBody().toString())
-                val errorMessage = errorJsonObject.getString("message")
-                Resource.Error(errorMessage = errorMessage ?: "Something went wrong")
+                Resource.Error(errorMessage = response.errorBody().toString())
             }
         } catch (e: HttpException) {
             Resource.Error(errorMessage = e.message ?: "Something went wrong")

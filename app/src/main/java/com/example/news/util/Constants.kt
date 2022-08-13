@@ -4,7 +4,7 @@ object Constants {
 
     // Network
     const val API_BASE_URL = "https://newsapi.org/"
-    const val API_KEY = "fd48a25dbec44d60b18e0fc7a8272ca7"
+    const val API_KEY = "07968b2c5f2b41d69489401a42a5a5b2"
     const val TIMEOUT = 60L
 
     // Database
