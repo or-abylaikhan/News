@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentSearchNewsBinding
 import com.example.news.presentation.NewsAdapter
+import com.example.news.util.Constants
 import com.example.news.util.Resource
 import com.example.news.util.binding.BindingFragment
 import com.example.news.util.makeGone
@@ -30,7 +32,12 @@ class SearchNewsFragment :
 
     private fun initViews() {
         binding.rvNews.adapter = NewsAdapter(
-            OnItemClickListener = { findNavController().navigate(R.id.action_searchNewsFragment_to_articleFragment) }
+            OnItemClickListener = {
+                val bundle = bundleOf(Constants.ARTICLE to it)
+                findNavController().navigate(
+                    R.id.action_searchNewsFragment_to_articleFragment, bundle
+                )
+            }
         )
     }
 

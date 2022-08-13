@@ -3,11 +3,13 @@ package com.example.news.presentation.main
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentNewsBinding
 import com.example.news.presentation.NewsAdapter
+import com.example.news.util.Constants.ARTICLE
 import com.example.news.util.Resource
 import com.example.news.util.binding.BindingFragment
 import com.example.news.util.makeGone
@@ -27,7 +29,10 @@ class NewsFragment : BindingFragment<FragmentNewsBinding>(FragmentNewsBinding::i
 
     private fun initViews() {
         binding.rvNews.adapter = NewsAdapter(
-            OnItemClickListener = { findNavController().navigate(R.id.action_newsFragment_to_articleFragment) }
+            OnItemClickListener = {
+                val bundle = bundleOf(ARTICLE to it)
+                findNavController().navigate(R.id.action_newsFragment_to_articleFragment, bundle)
+            }
         )
     }
 

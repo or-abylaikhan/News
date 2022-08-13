@@ -9,4 +9,7 @@ object Constants {
 
     // Database
     const val DATABASE_NAME = "Article database"
+
+    // Models
+    const val ARTICLE = "Article"
 }
