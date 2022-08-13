@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.news.R
 import com.example.news.databinding.NewsItemBinding
 import com.example.news.domain.model.Article
+import com.example.news.util.publishedAtSimple
 
 class NewsAdapter(private val OnItemClickListener: (Article) -> Unit) :
     ListAdapter<Article, NewsAdapter.NewsViewHolder>(
@@ -34,7 +35,7 @@ class NewsAdapter(private val OnItemClickListener: (Article) -> Unit) :
                 tvArticleTitle.text = article.title
                 tvArticleDescription.text = article.description ?: unknown
                 tvArticleAuthor.text = article.author ?: unknown
-                tvArticlePublishedAt.text = article.publishedAt
+                tvArticlePublishedAt.text = article.publishedAtSimple()
                 root.setOnClickListener { OnItemClickListener.invoke(article) }
             }
         }
