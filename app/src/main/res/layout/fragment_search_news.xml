@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:hint="@string/search_hilt"
         android:layoutDirection="locale"
-        app:iconifiedByDefault="false" />
+        app:iconifiedByDefault="false"
+        app:queryHint="@string/search_hilt" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_news"
