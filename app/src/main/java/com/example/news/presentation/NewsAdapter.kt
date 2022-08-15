@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.news.R
 import com.example.news.databinding.NewsItemBinding
 import com.example.news.domain.model.Article
 import com.example.news.util.publishedAtSimple
@@ -29,12 +28,11 @@ class NewsAdapter(private val OnItemClickListener: (Article) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(article: Article) {
             with(binding) {
-                val unknown = root.context.getString(R.string.unknown)
                 Glide.with(root).load(article.urlToImage).centerCrop().into(ivArticleImage)
                 tvArticleSource.text = article.source.name
                 tvArticleTitle.text = article.title
-                tvArticleDescription.text = article.description ?: unknown
-                tvArticleAuthor.text = article.author ?: unknown
+                tvArticleDescription.text = article.description
+                tvArticleAuthor.text = article.author
                 tvArticlePublishedAt.text = article.publishedAtSimple()
                 root.setOnClickListener { OnItemClickListener.invoke(article) }
             }
