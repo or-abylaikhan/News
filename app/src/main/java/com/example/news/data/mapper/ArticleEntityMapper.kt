@@ -10,7 +10,6 @@ class ArticleEntityMapper @Inject constructor(private val sourceEntityMapper: So
 
     override fun from(model: Article): ArticleEntity =
         ArticleEntity(
-            id = model.id,
             source = sourceEntityMapper.from(model.source),
             author = model.author,
             title = model.title,
@@ -24,7 +23,6 @@ class ArticleEntityMapper @Inject constructor(private val sourceEntityMapper: So
 
     override fun to(model: ArticleEntity): Article =
         Article(
-            id = model.id,
             source = sourceEntityMapper.to(model.source),
             author = model.author,
             title = model.title,
