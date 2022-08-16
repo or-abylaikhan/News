@@ -1,6 +1,6 @@
 package com.example.news.data.mapper
 
-import com.example.news.data.database.model.SourceEntity
+import com.example.news.data.database.entity.SourceEntity
 import com.example.news.domain.model.Source
 import com.example.news.util.Mapper
 import javax.inject.Inject

@@ -1,6 +1,6 @@
 package com.example.news.data.mapper
 
-import com.example.news.data.network.model.ArticleResponse
+import com.example.news.data.network.response.ArticleResponse
 import com.example.news.domain.model.Article
 import com.example.news.util.Mapper
 import javax.inject.Inject

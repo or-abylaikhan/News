@@ -1,7 +1,7 @@
 package com.example.news.data.database
 
 import androidx.room.TypeConverter
-import com.example.news.data.database.model.SourceEntity
+import com.example.news.data.database.entity.SourceEntity
 
 class Converters {
 
