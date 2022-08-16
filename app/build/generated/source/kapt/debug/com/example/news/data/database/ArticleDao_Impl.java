@@ -12,8 +12,10 @@ import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import com.example.news.data.database.entity.ArticleEntity;
 import com.example.news.data.database.entity.SourceEntity;
+import java.lang.Boolean;
 import java.lang.Class;
 import java.lang.Exception;
+import java.lang.Integer;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
@@ -141,7 +143,7 @@ public final class ArticleDao_Impl implements ArticleDao {
 
   @Override
   public LiveData<List<ArticleEntity>> selectAll() {
-    final String _sql = "SELECT * FROM articles";
+    final String _sql = "SELECT * FROM articles ORDER BY publishedAt DESC";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
     return __db.getInvalidationTracker().createLiveData(new String[]{"articles"}, false, new Callable<List<ArticleEntity>>() {
       @Override
@@ -211,6 +213,46 @@ public final class ArticleDao_Impl implements ArticleDao {
             }
             _item = new ArticleEntity(_tmpSource,_tmpAuthor,_tmpTitle,_tmpDescription,_tmpUrl,_tmpUrlToImage,_tmpPublishedAt,_tmpContent);
             _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    });
+  }
+
+  @Override
+  public LiveData<Boolean> alreadyExists(final String url) {
+    final String _sql = "SELECT EXISTS (SELECT * FROM articles WHERE url = ?)";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    if (url == null) {
+      _statement.bindNull(_argIndex);
+    } else {
+      _statement.bindString(_argIndex, url);
+    }
+    return __db.getInvalidationTracker().createLiveData(new String[]{"articles"}, false, new Callable<Boolean>() {
+      @Override
+      public Boolean call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final Boolean _result;
+          if(_cursor.moveToFirst()) {
+            final Integer _tmp;
+            if (_cursor.isNull(0)) {
+              _tmp = null;
+            } else {
+              _tmp = _cursor.getInt(0);
+            }
+            _result = _tmp == null ? null : _tmp != 0;
+          } else {
+            _result = null;
           }
           return _result;
         } finally {

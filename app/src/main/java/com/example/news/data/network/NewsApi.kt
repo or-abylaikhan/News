@@ -9,7 +9,7 @@ interface NewsApi {
 
     @GET("/v2/top-headlines")
     suspend fun getBreakingNews(
-        @Query("country") countryCode: String = "us",
+        @Query("country") countryCode: String,
         @Query("page") pageNumber: Int = 1
     ): Response<NewsResponse>
 
