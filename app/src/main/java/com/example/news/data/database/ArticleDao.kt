@@ -7,7 +7,7 @@ import com.example.news.data.database.entity.ArticleEntity
 @Dao
 interface ArticleDao {
 
-    @Query("SELECT * FROM articles")
+    @Query("SELECT * FROM articles ORDER BY publishedAt DESC")
     fun selectAll(): LiveData<List<ArticleEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -15,4 +15,7 @@ interface ArticleDao {
 
     @Delete
     suspend fun delete(article: ArticleEntity)
+
+    @Query("SELECT EXISTS (SELECT * FROM articles WHERE url = :url)")
+    fun alreadyExists(url: String): LiveData<Boolean>
 }

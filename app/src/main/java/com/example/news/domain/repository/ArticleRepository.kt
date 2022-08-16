@@ -15,4 +15,6 @@ interface ArticleRepository {
     fun getSavedArticles(): LiveData<List<Article>>
 
     suspend fun deleteArticle(article: Article)
+
+    fun checkIfAlreadyExists(url: String): LiveData<Boolean>
 }

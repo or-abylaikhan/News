@@ -55,7 +55,7 @@ class SavedNewsFragment :
                     Snackbar.make(requireView(), "Article was deleted", Snackbar.LENGTH_LONG)
                         .apply {
                             setTextColor(context.getColor(R.color.red))
-                            setBackgroundTint(context.getColor(R.color.black))
+                            setBackgroundTint(context.getColor(R.color.dark_grey))
                             setActionTextColor(context.getColor(R.color.red))
                             setAction("Undo") { viewModel.save(article) }
                         }.show()

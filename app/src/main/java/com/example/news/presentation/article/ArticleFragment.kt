@@ -14,17 +14,26 @@ import dagger.hilt.android.AndroidEntryPoint
 class ArticleFragment : BindingFragment<FragmentArticleBinding>(FragmentArticleBinding::inflate) {
 
     private val viewModel: ArticleFragmentViewModel by viewModels()
-
+    private lateinit var article: Article
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        article = arguments?.getSerializable(ARTICLE) as Article
         iniViews()
+        setupListeners()
+        setupObservers()
     }
 
-    private fun iniViews() {
+    private fun setupListeners() = binding.fab.setOnClickListener { viewModel.save(article) }
+
+    private fun iniViews() =
+        binding.wv.apply { webViewClient = WebViewClient(); loadUrl(article.url) }
+
+    private fun setupObservers() {
         with(binding) {
-            val article = arguments?.getSerializable(ARTICLE) as Article
-            wv.apply { webViewClient = WebViewClient(); loadUrl(article.url) }
-            fab.setOnClickListener { viewModel.save(article) }
+            viewModel.checkIfAlreadyExists(article.url)
+                .observe(viewLifecycleOwner) { alreadyExists ->
+                    if (alreadyExists) fab.hide() else fab.show()
+                }
         }
     }
 }

@@ -70,4 +70,7 @@ class ArticleRepositoryImpl @Inject constructor(
 
     override suspend fun deleteArticle(article: Article) =
         articleDao.delete(articleEntityMapper.from(article))
+
+    override fun checkIfAlreadyExists(url: String): LiveData<Boolean> =
+        articleDao.alreadyExists(url)
 }
