@@ -29,11 +29,8 @@ class ArticleFragment : BindingFragment<FragmentArticleBinding>(FragmentArticleB
         binding.wv.apply { webViewClient = WebViewClient(); loadUrl(article.url) }
 
     private fun setupObservers() {
-        with(binding) {
-            viewModel.checkIfAlreadyExists(article.url)
-                .observe(viewLifecycleOwner) { alreadyExists ->
-                    if (alreadyExists) fab.hide() else fab.show()
-                }
+        viewModel.checkIfAlreadyExists(article.url).observe(viewLifecycleOwner) { alreadyExists ->
+            with(binding) { if (alreadyExists) fab.hide() else fab.show() }
         }
     }
 }
