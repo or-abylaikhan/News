@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.news.R
 import com.example.news.databinding.FragmentNewsBinding
-import com.example.news.presentation.NewsAdapter
+import com.example.news.presentation.adapter.ArticleAdapter
 import com.example.news.util.Constants.ARTICLE
 import com.example.news.util.Resource
 import com.example.news.util.binding.BindingFragment
@@ -28,7 +28,7 @@ class NewsFragment : BindingFragment<FragmentNewsBinding>(FragmentNewsBinding::i
     }
 
     private fun initViews() {
-        binding.rvNews.adapter = NewsAdapter(
+        binding.rvNews.adapter = ArticleAdapter(
             OnItemClickListener = {
                 val bundle = bundleOf(ARTICLE to it)
                 findNavController().navigate(R.id.action_newsFragment_to_articleFragment, bundle)
@@ -42,7 +42,7 @@ class NewsFragment : BindingFragment<FragmentNewsBinding>(FragmentNewsBinding::i
                 when (resource) {
                     is Resource.Loading -> pb.makeVisible()
                     is Resource.Success -> {
-                        (rvNews.adapter as NewsAdapter).submitList(resource.data)
+                        (rvNews.adapter as ArticleAdapter).submitList(resource.data)
                         pb.makeGone()
                     }
                     is Resource.Error ->

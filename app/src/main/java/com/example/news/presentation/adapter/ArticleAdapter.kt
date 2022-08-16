@@ -1,8 +1,7 @@
-package com.example.news.presentation
+package com.example.news.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,13 +10,8 @@ import com.example.news.databinding.NewsItemBinding
 import com.example.news.domain.model.Article
 import com.example.news.util.publishedAtSimple
 
-class NewsAdapter(private val OnItemClickListener: (Article) -> Unit) :
-    ListAdapter<Article, NewsAdapter.NewsViewHolder>(
-        object : DiffUtil.ItemCallback<Article>() {
-            override fun areItemsTheSame(old: Article, new: Article) = old.url == new.url
-            override fun areContentsTheSame(oldItem: Article, newItem: Article) = oldItem == newItem
-        }
-    ) {
+class ArticleAdapter(private val OnItemClickListener: (Article) -> Unit) :
+    ListAdapter<Article, ArticleAdapter.NewsViewHolder>(ArticleItemCallBack) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder =
         NewsViewHolder(NewsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
