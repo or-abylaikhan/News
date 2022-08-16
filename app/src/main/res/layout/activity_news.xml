@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="@color/dark_grey"
     tools:context=".presentation.main.NewsActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -29,7 +30,7 @@
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
+            android:background="@color/dark_grey"
             app:elevation="0dp"
             app:itemIconTint="@color/red"
             app:itemTextColor="@color/red"

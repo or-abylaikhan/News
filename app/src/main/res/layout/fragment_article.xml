@@ -16,9 +16,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:backgroundTint="@color/red"
         android:contentDescription="@string/bookmark_article"
         android:src="@drawable/ic_bookmark"
+        android:visibility="gone"
+        app:backgroundTint="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
