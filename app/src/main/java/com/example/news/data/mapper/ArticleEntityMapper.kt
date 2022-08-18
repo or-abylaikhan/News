@@ -33,7 +33,8 @@ class ArticleEntityMapper @Inject constructor(private val sourceEntityMapper: So
             content = model.content,
         )
 
-    override fun from(model: List<Article>): List<ArticleEntity> = model.map { from(it) }
+    override fun from(model: List<Article>): List<ArticleEntity> = model.map(::from)
 
-    override fun to(model: List<ArticleEntity>): List<Article> = model.map { to(it) }
+    override fun to(model: List<ArticleEntity>): List<Article> = model.map(::to)
+
 }

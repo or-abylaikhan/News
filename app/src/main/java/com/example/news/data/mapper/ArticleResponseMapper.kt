@@ -31,7 +31,7 @@ class ArticleResponseMapper @Inject constructor(private val sourceResponseMapper
             content = model.content
         )
 
-    override fun from(model: List<Article>): List<ArticleResponse> = model.map { from(it) }
+    override fun from(model: List<Article>): List<ArticleResponse> = model.map(::from)
 
-    override fun to(model: List<ArticleResponse>): List<Article> = model.map { to(it) }
+    override fun to(model: List<ArticleResponse>): List<Article> = model.map(::to)
 }
