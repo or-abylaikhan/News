@@ -1,6 +1,5 @@
 package com.example.news.util
 
-import android.annotation.SuppressLint
 import android.text.format.DateUtils
 import android.view.View
 import com.example.news.domain.model.Article
@@ -17,9 +16,8 @@ fun View.makeVisible() {
 }
 
 //Model extensions
-@SuppressLint("SimpleDateFormat")
 fun Article.publishedAtSimple(): String {
-    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
     val parsedDate: Date = inputFormat.parse(publishedAt) as Date
     return DateUtils.getRelativeTimeSpanString(
         parsedDate.time, Calendar.getInstance().timeInMillis, DateUtils.MINUTE_IN_MILLIS
