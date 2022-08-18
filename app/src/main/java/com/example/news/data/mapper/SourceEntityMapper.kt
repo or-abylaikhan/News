@@ -5,7 +5,6 @@ import com.example.news.domain.model.Source
 import com.example.news.util.Mapper
 import javax.inject.Inject
 
-
 class SourceEntityMapper @Inject constructor() : Mapper<Source, SourceEntity> {
 
     override fun from(model: Source): SourceEntity = SourceEntity(id = model.id, name = model.name)
