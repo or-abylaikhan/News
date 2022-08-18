@@ -14,4 +14,5 @@ class SourceResponseMapper @Inject constructor() : Mapper<Source, SourceResponse
     override fun from(model: List<Source>): List<SourceResponse> = model.map(::from)
 
     override fun to(model: List<SourceResponse>): List<Source> = model.map(::to)
+
 }

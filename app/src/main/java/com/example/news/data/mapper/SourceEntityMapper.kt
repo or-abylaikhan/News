@@ -15,4 +15,5 @@ class SourceEntityMapper @Inject constructor() : Mapper<Source, SourceEntity> {
     override fun from(model: List<Source>): List<SourceEntity> = model.map(::from)
 
     override fun to(model: List<SourceEntity>): List<Source> = model.map(::to)
+
 }
