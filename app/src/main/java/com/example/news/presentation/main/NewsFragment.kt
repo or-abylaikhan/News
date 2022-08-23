@@ -39,7 +39,7 @@ class NewsFragment : BindingFragment<FragmentNewsBinding>(FragmentNewsBinding::i
 
     private fun setupListeners() = with(binding) {
         chips.setOnCheckedStateChangeListener { _, checkedId ->
-            val countryCode = (chips.getChildAt(checkedId.first()) as Chip).text.toString()
+            val countryCode = (chips.getChildAt(checkedId.first() - 1) as Chip).text.toString()
             viewModel.changeCountry(countryCode)
         }
     }
