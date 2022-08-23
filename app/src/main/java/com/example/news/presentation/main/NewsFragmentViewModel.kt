@@ -1,32 +1,25 @@
 package com.example.news.presentation.main
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.example.news.domain.model.Article
+import androidx.paging.cachedIn
 import com.example.news.domain.use_case.GetBreakingNewsUseCase
-import com.example.news.util.Resource
+import com.example.news.util.Constants.DEFAULT_COUNTRY_CODE
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NewsFragmentViewModel @Inject constructor(private val getBreakingNewsUseCase: GetBreakingNewsUseCase) :
     ViewModel() {
 
-    private val _breakingNews = MutableLiveData<Resource<List<Article>>>()
-    private var breakingNewsPage = 1
-    val breakingNews: LiveData<Resource<List<Article>>> = _breakingNews
+    private val currentCountryCode = MutableLiveData(DEFAULT_COUNTRY_CODE)
+    val breakingNews = currentCountryCode
+        .switchMap { code -> getBreakingNewsUseCase.getBreakingNews(code) }
+        .cachedIn(viewModelScope)
 
-    init {
-        getBreakingNews("us")
+    fun changeCountry(countryCode: String) {
+        currentCountryCode.value = countryCode
     }
-
-    private fun getBreakingNews(countryCode: String) =
-        viewModelScope.launch {
-            _breakingNews.postValue(Resource.Loading())
-            val resource = getBreakingNewsUseCase.getBreakingNews(countryCode, breakingNewsPage)
-            _breakingNews.postValue(resource)
-        }
 }

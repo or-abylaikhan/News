@@ -1,15 +1,18 @@
 package com.example.news.util
 
-import android.text.format.DateUtils
+import android.os.Build
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.annotation.RequiresApi
 import com.example.news.R
 import com.example.news.domain.model.Article
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
-import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 // View extensions
@@ -26,10 +29,9 @@ fun ChipGroup.addChip(text: String) = apply {
 }
 
 //Model extensions
-fun Article.publishedAtSimple(): String {
-    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
-    val parsedDate: Date = inputFormat.parse(publishedAt) as Date
-    val timeInMillis = Calendar.getInstance().timeInMillis
-    val minuteInMillis = DateUtils.MINUTE_IN_MILLIS
-    return "${DateUtils.getRelativeTimeSpanString(parsedDate.time, timeInMillis, minuteInMillis)}"
+@RequiresApi(Build.VERSION_CODES.O)
+fun Article.publishedAtSimple(locale: Locale = Locale.getDefault()): String {
+    val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'", locale)
+    val parsedDate: LocalDate = LocalDate.parse(publishedAt, inputFormat)
+    return Period.between(parsedDate, LocalDate.now()).toString()
 }

@@ -1,14 +1,14 @@
 package com.example.news.domain.repository
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import com.example.news.domain.model.Article
-import com.example.news.util.Resource
 
 interface ArticleRepository {
 
-    suspend fun getBreakingNews(countryCode: String, pageNumber: Int): Resource<List<Article>>
+    fun getBreakingNews(countryCode: String): LiveData<PagingData<Article>>
 
-    suspend fun searchForNews(searchQuery: String, pageNumber: Int): Resource<List<Article>>
+    fun searchForNews(searchQuery: String): LiveData<PagingData<Article>>
 
     suspend fun saveArticle(article: Article)
 

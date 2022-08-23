@@ -12,4 +12,9 @@ object Constants {
 
     // Models
     const val ARTICLE = "Article"
+
+    // Paging
+    const val NEWS_STARTING_PAGE_INDEX = 1
+    const val DEFAULT_QUERY = "Android"
+    const val DEFAULT_COUNTRY_CODE = "us"
 }
