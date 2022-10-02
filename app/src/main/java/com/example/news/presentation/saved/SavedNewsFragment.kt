@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.news.R
 import com.example.news.databinding.FragmentSavedNewsBinding
-import com.example.news.presentation.NewsAdapter
+import com.example.news.presentation.adapter.ArticleAdapter
 import com.example.news.util.Constants
 import com.example.news.util.binding.BindingFragment
 import com.google.android.material.snackbar.Snackbar
@@ -22,11 +22,11 @@ class SavedNewsFragment :
     BindingFragment<FragmentSavedNewsBinding>(FragmentSavedNewsBinding::inflate) {
 
     private val viewModel: SaveNewsFragmentViewModel by viewModels()
-    private lateinit var adapter: NewsAdapter
+    private lateinit var adapter: ArticleAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = NewsAdapter(
+        adapter = ArticleAdapter(
             OnItemClickListener = {
                 val bundle = bundleOf(Constants.ARTICLE to it)
                 findNavController()
@@ -54,7 +54,7 @@ class SavedNewsFragment :
 
             @RequiresApi(Build.VERSION_CODES.M)
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val article = adapter.currentList[viewHolder.adapterPosition]
+                val article = adapter.currentList[viewHolder.absoluteAdapterPosition]
                 viewModel.delete(article)
                 Snackbar.make(requireView(), "Article was deleted", Snackbar.LENGTH_LONG)
                     .apply {

@@ -1,76 +1,45 @@
 package com.example.news.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.liveData
 import com.example.news.data.database.ArticleDao
 import com.example.news.data.mapper.ArticleEntityMapper
 import com.example.news.data.mapper.ArticleResponseMapper
 import com.example.news.data.network.NewsApi
+import com.example.news.data.paging.BreakingNewsPagingSource
+import com.example.news.data.paging.SearchNewsPagingSource
 import com.example.news.domain.model.Article
 import com.example.news.domain.repository.ArticleRepository
-import com.example.news.util.Resource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 
 class ArticleRepositoryImpl @Inject constructor(
     private val api: NewsApi,
     private val articleDao: ArticleDao,
-    private val articleResponseMapper: ArticleResponseMapper,
+    private val responseMapper: ArticleResponseMapper,
     private val articleEntityMapper: ArticleEntityMapper
 ) : ArticleRepository {
 
-    override suspend fun getBreakingNews(
-        countryCode: String,
-        pageNumber: Int
-    ): Resource<List<Article>> = withContext(Dispatchers.IO) {
-        try {
-            val response = api.getBreakingNews(countryCode, pageNumber)
-            if (response.isSuccessful) {
-                val articleData =
-                    articleResponseMapper.to(response.body()?.articleData ?: emptyList())
-                Resource.Success(data = articleData)
-            } else {
-                Resource.Error(errorMessage = response.errorBody().toString())
-            }
-        } catch (e: HttpException) {
-            Resource.Error(errorMessage = e.message ?: "Something went wrong")
-        } catch (e: IOException) {
-            Resource.Error("Please check your network connection")
-        }
-    }
+    override fun getBreakingNews(countryCode: String) =
+        Pager(config = PagingConfig(pageSize = 20, maxSize = 100, enablePlaceholders = false),
+            pagingSourceFactory = { BreakingNewsPagingSource(api, responseMapper, countryCode) }
+        ).liveData
 
-    override suspend fun searchForNews(
-        searchQuery: String,
-        pageNumber: Int
-    ): Resource<List<Article>> = withContext(Dispatchers.IO) {
-        try {
-            val response = api.searchForNews(searchQuery, pageNumber)
-            if (response.isSuccessful) {
-                val articleData =
-                    articleResponseMapper.to(response.body()?.articleData ?: emptyList())
-                Resource.Success(data = articleData)
-            } else {
-                Resource.Error(errorMessage = response.errorBody().toString())
-            }
-        } catch (e: HttpException) {
-            Resource.Error(errorMessage = e.message ?: "Something went wrong")
-        } catch (e: IOException) {
-            Resource.Error("Please check your network connection")
-        }
-    }
-
-    override fun getSavedArticles(): LiveData<List<Article>> =
-        Transformations.map(articleDao.selectAll()) { articleEntityMapper.to(it) }
+    override fun searchForNews(searchQuery: String) =
+        Pager(
+            config = PagingConfig(pageSize = 20, maxSize = 100, enablePlaceholders = false),
+            pagingSourceFactory = { SearchNewsPagingSource(api, responseMapper, searchQuery) }
+        ).liveData
 
     override suspend fun saveArticle(article: Article) =
         articleDao.insert(articleEntityMapper.from(article))
 
+    override fun getSavedArticles() =
+        Transformations.map(articleDao.selectAll(), articleEntityMapper::to)
+
     override suspend fun deleteArticle(article: Article) =
         articleDao.delete(articleEntityMapper.from(article))
 
-    override fun checkIfAlreadyExists(url: String): LiveData<Boolean> =
-        articleDao.alreadyExists(url)
+    override fun checkIfAlreadyExists(url: String) = articleDao.alreadyExists(url)
 }

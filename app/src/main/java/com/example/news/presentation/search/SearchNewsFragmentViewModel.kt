@@ -1,29 +1,25 @@
 package com.example.news.presentation.search
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.example.news.domain.model.Article
+import androidx.paging.cachedIn
 import com.example.news.domain.use_case.SearchForNewsUseCase
-import com.example.news.util.Resource
+import com.example.news.util.Constants.DEFAULT_QUERY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchNewsFragmentViewModel @Inject constructor(
-    private val searchForNewsUseCase: SearchForNewsUseCase
-) : ViewModel() {
+class SearchNewsFragmentViewModel @Inject constructor(private val searchForNewsUseCase: SearchForNewsUseCase) :
+    ViewModel() {
 
-    private val _searchNews = MutableLiveData<Resource<List<Article>>>()
-    private var searchNewsPage = 1
-    val searchNews: LiveData<Resource<List<Article>>> = _searchNews
+    private val currentQuery = MutableLiveData(DEFAULT_QUERY)
+    val articles = currentQuery
+        .switchMap { query -> searchForNewsUseCase.searchForNews(query) }
+        .cachedIn(viewModelScope)
 
-    fun searchForNews(query: String) =
-        viewModelScope.launch {
-            _searchNews.postValue(Resource.Loading())
-            val resource = searchForNewsUseCase.searchForNews(query, searchNewsPage)
-            _searchNews.postValue(resource)
-        }
+    fun searchArticles(query: String) {
+        currentQuery.value = query
+    }
 }
